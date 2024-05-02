@@ -13,12 +13,17 @@
 # limitations under the License.
 
 import time
-
 import numpy as np
-
 import streamlit as st
 from streamlit.hello.utils import show_code
 
+# Setting page configuration
+st.set_page_config(page_title="Plotting Demo", page_icon="📈")
+
+# Check if the user is authenticated before showing the content
+if not st.session_state.get('authenticated', False):
+    st.error("You must log in first.")
+    st.stop()
 
 def plotting_demo():
     progress_bar = st.sidebar.progress(0)
@@ -28,29 +33,30 @@ def plotting_demo():
 
     for i in range(1, 101):
         new_rows = last_rows[-1, :] + np.random.randn(5, 1).cumsum(axis=0)
-        status_text.text("%i%% Complete" % i)
+        status_text.text(f"{i}% Complete")
         chart.add_rows(new_rows)
         progress_bar.progress(i)
         last_rows = new_rows
         time.sleep(0.05)
 
     progress_bar.empty()
+    status_text.empty()
 
     # Streamlit widgets automatically run the script from top to bottom. Since
     # this button is not connected to any other logic, it just causes a plain
     # rerun.
-    st.button("Re-run")
+    if st.button("Re-run"):
+        st.experimental_rerun()
 
 
-st.set_page_config(page_title="Plotting Demo", page_icon="📈")
 st.markdown("# Plotting Demo")
-st.sidebar.header("Plotting Demo")
+st.sidebar.header("Plotting Demo Sidebar")
 st.write(
-    """This demo illustrates a combination of plotting and animation with
-Streamlit. We're generating a bunch of random numbers in a loop for around
-5 seconds. Enjoy!"""
+    """This demo illustrates a combination of plotting and animation with Streamlit.
+    We're generating a bunch of random numbers in a loop for around 5 seconds. Enjoy!"""
 )
 
+# Run the plotting demo function
 plotting_demo()
 
 show_code(plotting_demo)

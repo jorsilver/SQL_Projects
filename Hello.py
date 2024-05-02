@@ -22,11 +22,32 @@ st.set_page_config(page_title="Fitness App", page_icon="👋", layout="wide")
 
 db_ops = db_operations()
 
-
+def authenticate(username, password):
+    # Assume a SQL query function returning user info or None
+    user = db_ops.select_query_params("SELECT * FROM user WHERE username=%s AND password=%s", (username, password))
+    return bool(user)
 
 def run():
     st.write(db_ops.select_query("SELECT first_name from user;"))
 
+    # Create session state for authentication
+    if 'authenticated' not in st.session_state:
+        st.session_state['authenticated'] = False
+
+    # User interface for login
+    if not st.session_state['authenticated']:
+        username = st.sidebar.text_input("Username")
+        password = st.sidebar.text_input("Password", type="password")
+        if st.sidebar.button("Login"):
+            # Authentication logic
+            if authenticate(username, password):
+                st.session_state['authenticated'] = True
+                st.success("Logged in successfully.")
+            else:
+                st.error("Incorrect username or password")
+
+    if st.session_state['authenticated']:
+        st.write("Welcome to the Fitness App!")
 
 
 
