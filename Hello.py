@@ -14,29 +14,18 @@
 
 import streamlit as st
 from streamlit.logger import get_logger
-import mysql.connector
+from db_operations import db_operations
 
-connection = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="CPSC408!",
-    auth_plugin='mysql_native_password',
-    database ="Fitness")
-    
-cursor = connection.cursor()
+LOGGER = get_logger(__name__)
 
-print("Connection made..\n")
+st.set_page_config(page_title="Fitness App", page_icon="👋", layout="wide")
+
+db_ops = db_operations()
 
 
 
 def run():
-    st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
-    )
-
-    cursor.execute("SELECT first_name from user;")
-    st.write(cursor.fetchall())
+    st.write(db_ops.select_query("SELECT first_name from user;"))
 
 
 
