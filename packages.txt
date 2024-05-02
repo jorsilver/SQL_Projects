@@ -1,0 +1,4 @@
+build-essential
+pkg-config
+mysql-server
+default-libmysqlclient-dev
