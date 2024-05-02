@@ -14,6 +14,7 @@
 
 import streamlit as st
 from streamlit.logger import get_logger
+import mysql.connector
 
 LOGGER = get_logger(__name__)
 
@@ -45,6 +46,22 @@ def run():
         - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
     """
     )
+
+    connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="CPSC408!",
+            auth_plugin='mysql_native_password',
+            database ="Fitness")
+    
+    cursor = connection.cursor()
+
+    st.write("Connection made..\n")
+
+    cursor.execute("SELECT first_name from user;")
+    st.write(cursor.fetchall())
+
+
 
 
 if __name__ == "__main__":
