@@ -24,7 +24,7 @@ def fetch_workouts(program_id):
     JOIN program_workout ON workout.workout_id = program_workout.workout_id
     WHERE program_id = %s;
     """
-    return db_ops.select_query_params(query, (program_id,))
+    return db_ops.select_query(query, (program_id,))
 
 def display_programs():
     st.title("Your Workout Programs")

@@ -30,7 +30,7 @@ def fetch_user_logs(user_id):
     WHERE user_id = %s
     ORDER BY date DESC;
     """
-    return db_ops.select_query_params(query, (user_id,))
+    return db_ops.select_query(query, (user_id,))
 
 def add_daily_log(user_id, date, caloric_burn, caloric_intake, notes):
     query = """

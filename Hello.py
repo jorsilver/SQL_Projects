@@ -23,13 +23,13 @@ st.set_page_config(page_title="Fitness App", page_icon="💪", layout="wide")
 db_ops = db_operations()
 
 def authenticate(username, password):
-    user = db_ops.select_query_params("SELECT * FROM user WHERE username=%s AND password=%s", (username, password))
+    user = db_ops.select_query("SELECT * FROM user WHERE username=%s AND password=%s", (username, password))
     if user:
         return user[0]  # Assuming the query returns a list of tuples
     return None
 
 def create_account(username, password, first_name, last_name, height, weight, dob):
-    existing_user = db_ops.select_query_params("SELECT * FROM user WHERE username=%s", (username,))
+    existing_user = db_ops.select_query("SELECT * FROM user WHERE username=%s", (username,))
     if existing_user:
         return False  # Username is not unique
     db_ops.modify_query_params(

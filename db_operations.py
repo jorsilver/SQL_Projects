@@ -46,31 +46,18 @@ class db_operations():
         self.cursor.execute(query, dictionary)
         self.connection.commit()
 
-    def select_query(self, query):
+    def select_query(self, query, params = None):
         """
-        Executes select queries.
+        Executes select queries, with optional parameters for queries with placeholders.
 
         Parameters:
-        - query (str): The SQL select query.
+        - query (str): The SQL select query, optionally containing named placeholders.
+        - params (dict, optional): A dictionary containing the values for the named placeholders, if any.
 
         Returns:
         - list[(,),]: The result set of the select query.
         """
-        self.cursor.execute(query)
-        return self.cursor.fetchall()
-    
-    def select_query_params(self, query, dictionary):
-        """
-        Executes select queries with named placeholders.
-
-        Parameters:
-        - query (str): The SQL select query with named placeholders.
-        - dictionary (dict): A dictionary containing the values for the named placeholders.
-
-        Returns:
-        - list[(,),]: The result set of the select query.
-        """
-        self.cursor.execute(query, dictionary)
+        self.cursor.execute(query, params) if params else self.cursor.execute(query)
         return self.cursor.fetchall()
 
     def first_record(self, query,):
