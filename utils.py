@@ -14,6 +14,7 @@
 
 import inspect
 import textwrap
+import datetime
 
 import streamlit as st
 
@@ -26,3 +27,41 @@ def show_code(demo):
         st.markdown("## Code")
         sourcelines, _ = inspect.getsourcelines(demo)
         st.code(textwrap.dedent("".join(sourcelines[1:])))
+
+def calculate_age(dob: datetime.date):
+    """
+    Calculate age from date of birth.
+    
+    Args:
+    dob (str): Date of birth in '%Y-%m-%d' format.
+    
+    Returns:
+    int: Age in years.
+    """
+    today = datetime.datetime.today()
+    return today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+
+def format_height_weight(height, weight, unit_type):
+    """
+    Formats the height and weight based on the unit type provided.
+
+    Args:
+    height (float): The height value to format.
+    weight (float): The weight value to format.
+    unit_type (str): Either 'imperial' or 'metric' to specify the unit type.
+
+    Returns:
+    str, str: Formatted height and weight strings.
+    """
+    if unit_type == 'imperial':
+        # Convert height to feet and inches
+        height = height * 12
+        feet = int(height// 12)
+        inches = int(height % 12)
+        formatted_height = f"{feet}' {inches}\""
+        formatted_weight = f"{weight} lbs"
+    else:  # unit_type == 'metric'
+        formatted_height = f"{height} cm"
+        formatted_weight = f"{weight} kg"
+    
+    return formatted_height, formatted_weight

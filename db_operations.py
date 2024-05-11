@@ -32,18 +32,18 @@ class db_operations():
         self.cursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED")
         print("Connection made..\n")
 
-    def modify_query_params(self, query, dictionary):
+    def modify_query(self, query, params = None):
         """
         Executes insert/update/delete queries with named placeholders.
 
         Parameters:
-        - query (str): The SQL query with named placeholders.
-        - dictionary (dict): A dictionary containing the values for the named placeholders.
+        - query (str): The SQL modify query, optionally containing named placeholders.
+        - params (dict, optional): A dictionary containing the values for the named placeholders, if any.
 
         Returns:
         - None
         """
-        self.cursor.execute(query, dictionary)
+        self.cursor.execute(query, params) if params else self.cursor.execute(query)
         self.connection.commit()
 
     def select_query(self, query, params = None):
@@ -60,61 +60,33 @@ class db_operations():
         self.cursor.execute(query, params) if params else self.cursor.execute(query)
         return self.cursor.fetchall()
 
-    def first_record(self, query,):
+    def first_row(self, query, params = None):
         """
         Retrieves the first row of a select query.
 
         Parameters:
-        - query (str): The SQL select query.
+        - query (str): The SQL select query, optionally containing named placeholders.
+        - params (dict, optional): A dictionary containing the values for the named placeholders, if any.
 
         Returns:
         - tuple or None: The first row of the result set if available, else None.
         """
-        self.cursor.execute(query)
-        result_set = self.cursor.fetchall()
-        return result_set[0] if result_set else None
-     
-    def first_record_params(self, query, dictionary):
-        """
-        Retrieves the first row of a select query with named placeholders.
-
-        Parameters:
-        - query (str): The SQL select query with named placeholders.
-        - dictionary (dict): A dictionary containing the values for the named placeholders.
-
-        Returns:
-        - tuple or None: The first row of the result set if available, else None.
-        """
-        self.cursor.execute(query, dictionary)
+        self.cursor.execute(query, params) if params else self.cursor.execute(query)
         result_set = self.cursor.fetchall()
         return result_set[0] if result_set else None
     
-    def first_row_first_attr(self, query):
+    def first_row_first_attr(self, query, params = None):
         """
         Retrieves the value of the first row's first attribute of a select query.
 
         Parameters:
-        - query (str): The SQL select query.
+        - query (str): The SQL select query, optionally containing named placeholders.
+        - params (dict, optional): A dictionary containing the values for the named placeholders, if any.
 
         Returns:
         - Any: The value of the first row's first attribute if available, else None.
         """
-        self.cursor.execute(query)
-        result = self.cursor.fetchall()
-        return result[0][0] if result else None
-    
-    def first_row_first_attr_params(self, query, dictionary):
-        """
-        Retrieves the value of the first row's first attribute of a select query with named placeholders.
-
-        Parameters:
-        - query (str): The SQL select query with named placeholders.
-        - dictionary (dict): A dictionary containing the values for the named placeholders.
-
-        Returns:
-        - Any: The value of the first row's first attribute if available, else None.
-        """
-        self.cursor.execute(query, dictionary)
+        self.cursor.execute(query, params) if params else self.cursor.execute(query)
         result = self.cursor.fetchall()
         return result[0][0] if result else None
     

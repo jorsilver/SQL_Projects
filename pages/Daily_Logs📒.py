@@ -37,7 +37,7 @@ def add_daily_log(user_id, date, caloric_burn, caloric_intake, notes):
     INSERT INTO daily_log (user_id, date, total_caloric_burn, total_caloric_intake, notes)
     VALUES (%s, %s, %s, %s, %s);
     """
-    db_ops.modify_query_params(query, (user_id, date, caloric_burn, caloric_intake, notes))
+    db_ops.modify_query(query, (user_id, date, caloric_burn, caloric_intake, notes))
 
 def display_daily_logs():
     st.title("Your Daily Logs")

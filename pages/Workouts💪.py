@@ -49,7 +49,7 @@ def create_program():
     if st.sidebar.button("Create Program"):
         user_id = st.session_state['user_info']['user_id']
         query = "INSERT INTO program (creator_id, program_name, days_week) VALUES (%s, %s, %s);"
-        db_ops.modify_query_params(query, (user_id, program_name, days_per_week))
+        db_ops.modify_query(query, (user_id, program_name, days_per_week))
         st.sidebar.success("Program created successfully!")
 
 if __name__ == "__main__":
