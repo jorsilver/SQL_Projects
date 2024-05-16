@@ -71,3 +71,31 @@ def display_daily_logs():
 
 if __name__ == "__main__":
     display_daily_logs()
+
+
+
+
+
+
+
+
+
+
+
+
+# def user_home_screen(user_info):
+#     st.header(f"Welcome, {user_info['first_name']}!")
+#     st.subheader("Your Profile")
+
+#     with st.form("user_info_form"):
+#         first_name = st.text_input("First Name", value=user_info['first_name'])
+#         last_name = st.text_input("Last Name", value=user_info['last_name'])
+#         height = st.number_input("Height", value=user_info['height'])
+#         weight = st.number_input("Weight", value=user_info['weight'])
+#         dob = st.date_input("Date of Birth", value=user_info['dob'])
+        
+#         if st.form_submit_button("Save Changes"):
+#             db_ops.modify_query(
+#                 "UPDATE user SET first_name = %s, last_name = %s, height = %s, weight = %s, dob = %s WHERE user_id = %s",
+#                 (first_name, last_name, height, weight, dob))
+#             st.success("Profile updated successfully!")
