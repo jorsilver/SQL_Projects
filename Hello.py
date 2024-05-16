@@ -40,26 +40,27 @@ def show_login_form():
         st.header("Login")
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
-        if st.form_submit_button("Login"):
-            user_data = authenticate_user(username, password)
-            if user_data:
-                st.session_state['authenticated'] = True
-                st.session_state['user_info'] = {
-                    'user_id': user_data[0],
-                    'username': user_data[1],
-                    'current_program': user_data[3],
-                    'first_name': user_data[4],
-                    'last_name': user_data[5],
-                    'height': user_data[6],
-                    'weight': user_data[7],
-                    'dob': user_data[9],
-                    'gender': user_data[10],
-                    'unit_type': user_data[11],
-                    'profile_image_path': find_profile_picture(user_data[1])
-                }
-                st.success("Logged in successfully.")
-            else:
-                st.error("Incorrect username or password")
+
+    if st.form_submit_button("Login"):
+        user_data = authenticate_user(username, password)
+        if user_data:
+            st.session_state['authenticated'] = True
+            st.session_state['user_info'] = {
+                'user_id': user_data[0],
+                'username': user_data[1],
+                'current_program': user_data[3],
+                'first_name': user_data[4],
+                'last_name': user_data[5],
+                'height': user_data[6],
+                'weight': user_data[7],
+                'dob': user_data[9],
+                'gender': user_data[10],
+                'unit_type': user_data[11],
+                'profile_image_path': find_profile_picture(user_data[1])
+            }
+            st.success("Logged in successfully.")
+        else:
+            st.error("Incorrect username or password")
 
 def create_new_account(username, password, first_name, last_name, height, weight, dob):
     if db_ops.first_row_first_attr("SELECT username FROM user WHERE username = %s", (username,)):
@@ -81,15 +82,14 @@ def show_register_form():
         height = st.number_input("Height", min_value=0, key="new_height")
         weight = st.number_input("Weight", min_value=0, key="new_weight")
         dob = st.date_input("Date of Birth", key="new_dob")
-        register_button = st.form_submit_button("Register")
-    if register_button:
+
+    if st.form_submit_button("Register"):
         if create_new_account(new_username, new_password, first_name, last_name, height, weight, dob):
             st.success("Account created successfully. Please log in.")
             st.session_state['show_register'] = False
 
 def save_profile_picture(image_file, username):
-    file_extension = os.path.splitext(image_file.name)[1].lower()
-    image_path = f"profile_pics/{username}{file_extension}"
+    image_path = f"profile_pics/{username}{os.path.splitext(image_file.name)[1].lower()}"
     os.makedirs(os.path.dirname(image_path), exist_ok=True)
     try:
         with Image.open(image_file) as img:
@@ -112,10 +112,7 @@ def show_edit_profile_form(user_info):
         unit_type = st.text_input("Unit Type", value=user_info['unit_type'])
         profile_pic = st.file_uploader("Upload Profile Picture", type=['jpg', 'jpeg'])
 
-        save_button = st.form_submit_button("Save Changes")
-        cancel_button = st.form_submit_button("Cancel")
-
-    if save_button:
+    if st.form_submit_button("Save Changes"):
         st.session_state['user_info'].update({
             'first_name': first_name,
             'last_name': last_name,
@@ -137,7 +134,7 @@ def show_edit_profile_form(user_info):
         st.success("Profile updated successfully.")
         st.session_state['edit_profile'] = False
 
-    if cancel_button:
+    if st.form_submit_button("Cancel"):
         st.session_state['edit_profile'] = False
 
 def show_user_home_screen():
