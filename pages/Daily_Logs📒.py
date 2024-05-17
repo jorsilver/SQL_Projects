@@ -39,6 +39,9 @@ def add_daily_log(user_id, date, caloric_burn, caloric_intake, notes):
     """
     db_ops.modify_query(query, (user_id, date, caloric_burn, caloric_intake, notes))
 
+def add_workout():
+    st.write("New Workout")
+
 def display_daily_logs():
     st.title("Your Daily Logs")
     
@@ -61,6 +64,7 @@ def display_daily_logs():
     with st.sidebar.form("new_log_form"):
         new_log_date = st.date_input("Date")
         new_caloric_burn = st.number_input("Total Caloric Burn", min_value=0)
+        st.button("Add Workout", on_click=add_workout)
         new_caloric_intake = st.number_input("Total Caloric Intake", min_value=0)
         new_notes = st.text_area("Notes")
         submit_new_log = st.form_submit_button("Add Log")
