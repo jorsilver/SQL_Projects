@@ -14,7 +14,7 @@
 
 import inspect
 import textwrap
-import datetime
+from datetime import date
 
 import streamlit as st
 
@@ -28,7 +28,7 @@ def show_code(demo):
         sourcelines, _ = inspect.getsourcelines(demo)
         st.code(textwrap.dedent("".join(sourcelines[1:])))
 
-def calculate_age(dob: datetime.date):
+def calculate_age(dob: date):
     """
     Calculate age from date of birth.
     
@@ -38,7 +38,7 @@ def calculate_age(dob: datetime.date):
     Returns:
     int: Age in years.
     """
-    today = datetime.datetime.today()
+    today = date.today()
     return today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
 
 def format_height_weight(height, weight, unit_type):
