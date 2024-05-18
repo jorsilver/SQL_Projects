@@ -62,7 +62,11 @@ st.set_page_config(page_title="Workouts", page_icon="🏋️‍♂️", layout="
 #         st.error("You must log in to view this page.")
 
 if 'authenticated' not in st.session_state:
-    st.session_state['authenticated'] = False
+    st.session_state.authenticated = False
+if 'show_user_workouts' not in st.session_state:
+    st.session_state.show_user_workouts = True
+if 'creating_program' not in st.session_state:
+    st.session_state.creating_program = False
 
 # Function to fetch workout programs for the user
 def get_public_workout_programs():
@@ -71,7 +75,7 @@ def get_public_workout_programs():
 
 # Function to display the user's workout programs
 def show_public_workout_programs():
-    user_info = st.session_state['user_info']
+    user_info = st.session_state.user_info
     st.header("Workout Programs")
     
     workout_programs = get_public_workout_programs()
@@ -89,7 +93,14 @@ def show_public_workout_programs():
         
 def run():
     if st.session_state['authenticated']:
-        show_public_workout_programs()
+        show_side_bar()
+        if not st.session_state.creating_program:
+            if st.session_state.show_user_workouts:
+                # show_user_workouts_programs()
+            else:
+                show_public_workout_programs()
+        else:
+            create_new_program()
     else:
         st.error("Please log in to view your workout programs.")
 
